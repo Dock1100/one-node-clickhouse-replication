@@ -1,0 +1,16 @@
+version: '2'
+services:
+  zookeeper:
+    image: zookeeper
+  clickhouse-server:
+    image: clickhouse/clickhouse-server:latest
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    depends_on:
+      - zookeeper
+    volumes:
+      - ./cfg/config.xml:/etc/clickhouse-server/config.d/local.xml
+      - ./cfg/macros.xml:/etc/clickhouse-server/config.d/macros.xml
+      - ./data/clickhouse-server:/var/lib/clickhouse
